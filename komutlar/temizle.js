@@ -1,28 +1,25 @@
 const Discord = require('discord.js');
-
-
 exports.run = function(client, message, args) {
-	const 	sayi = args.slice(0).join(' ');
-	if (sayi.length < 1) {
-	return message.reply("Silmem için bir miktar belirt")
-} else {
-	message.channel.bulkDelete(sayi);
-message.channel.send("**" + sayi + "** adet mesaj sildim").then(msg => {
-	msg.delete("5000")
-});
-}
 
+  if (!message.guild) {
+    return message.author.send('`temizle` **komutu sadece sunucularda kullanılabilir.**');
+  }
+  let mesajsayisi = parseInt(args.join(' '));
+  if (mesajsayisi.length < 1) return message.channel.send('**Kaç mesaj silmem gerektiğini belirtmedin.**')
+  if (mesajsayisi > 100) return message.channel.send('**__100__** **adetden fazla mesaj silemem!**');
+  message.channel.bulkDelete(mesajsayisi + 1);
+  message.channel.send('**__' + mesajsayisi + '__** **adet mesaj sildim!** ')
 };
 
 exports.conf = {
   enabled: true,
-  guildOnly: false,
-  aliases: [],
-  permLevel: 0
+  guildOnly: true,
+  aliases: ['sil'],
+  permLevel: 2
 };
 
 exports.help = {
   name: 'temizle',
-  description: 'Belirtilen miktarda mesaj siler',
-  usage: 'temizle <miktar>'
+  description: 'Belirlenen miktar mesajı siler.',
+  usage: 'temizle <temizlenecek mesaj sayısı>'
 };

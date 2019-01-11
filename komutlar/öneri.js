@@ -4,11 +4,11 @@ const Discord = require('discord.js');
 exports.run = function(client, message, args) {
 
 	var öneri = args.slice(0).join(' ');
-	var guildID = "448026782487281665";
-	var channelID = "450252123695874068";
+	var guildID = "459698010473889813";
+	var channelID = "484779276114067467";
 	
 	if (!öneri){
-		return message.reply("Bir mesaj belirtin! Doğru kullanım: **e!öneri <mesaj>**");
+		return message.reply("Bir mesaj belirtin! Doğru kullanım: **?öneri <mesaj>**");
 	} else {
 		
 		var embed = new Discord.RichEmbed()

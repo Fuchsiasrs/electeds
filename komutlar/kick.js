@@ -6,14 +6,14 @@ exports.run = (client, message, args) => {
   .setTimestamp()
   .setAuthor(message.author.username, message.author.avatarURL)
   .addField(':warning: Uyarı :warning:', '`kick` adlı komutu özel mesajlarda kullanamazsın.')
-  return message.author.send(ozelmesajuyari); }
+  return message.author.sendEmbed(ozelmesajuyari); }
   let guild = message.guild
   let reason = args.slice(1).join(' ');
   let user = message.mentions.users.first();
-  let modlog = guild.channels.find('name', 'banned');
-  if (!modlog) return message.reply('`banned kanalı oluşturman lazım.');
-  if (reason.length < 1) return message.reply('neden kick attığının sebebini belirt lütfen.');
-  if (message.mentions.users.size < 1) return message.reply('kimi kickleyeceğimi belirt mk beyinsizi seni.').catch(console.error);
+  let modlog = guild.channels.find('name', 'mod-log');
+  if (!modlog) return message.reply(':warning: **Uyarı** :warning:', '`mod-log` **adlı Kanal Bulunamadı!**');
+  if (reason.length < 1) return message.reply('Sunucudan atma sebebini yazmalısın.');
+  if (message.mentions.users.size < 1) return message.reply('Kimi sunucudan atacağını yazmalısın.').catch(console.error);
 
   if (!message.guild.member(user).kickable) return message.reply('Yetkilileri sunucudan atamam.');
   message.guild.member(user).kick();
@@ -21,11 +21,11 @@ exports.run = (client, message, args) => {
   const embed = new Discord.RichEmbed()
     .setColor(0x00AE86)
     .setTimestamp()
-    .addField('Eylem:', 'Sunucudan atma')
-    .addField('Kullanıcı:', `${user.username}#${user.discriminator} (${user.id})`)
-    .addField('Yetkili:', `${message.author.username}#${message.author.discriminator}`)
-    .addField('Sebep', reason);
-  return guild.channels.get(modlog.id).send(embed);
+    .addField('Eylem:', 'Sunucudan atma <a:sinirligif:502208088141725696>')
+    .addField('Atılan Kullanıcı:', `${user.username}#${user.discriminator} (${user.id})`)
+    .addField('Atan Yetkili:', `${message.author.username}#${message.author.discriminator}`)
+    .addField('Atma Sebebi: ', reason);
+  return guild.channels.get(modlog.id).sendEmbed(embed);
 };
 
 exports.conf = {
